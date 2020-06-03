@@ -31,13 +31,15 @@ iqdmasync::iqdmasync(uint64_t TuneFrequency,uint32_t SR,int Channel,uint32_t Fif
 // FSEL for amplitude 0
 	ModeIQ=Mode;
 	SampleRate=SR;
-	tunefreq=TuneFrequency;
-	clkgpio::SetAdvancedPllMode(true);
-	clkgpio::SetCenterFrequency(TuneFrequency,SampleRate); // Write Mult Int and Frac : FixMe carrier is already there
-	clkgpio::SetFrequency(0);
-	clkgpio::enableclk(4);
+	setFrequency(TuneFrequency);
+//	tunefreq=TuneFrequency;
+//	clkgpio::SetAdvancedPllMode(true);
+//	clkgpio::SetCenterFrequency(TuneFrequency,SampleRate); // Write Mult Int and Frac : FixMe carrier is already there
+//	printf("is %llu\n", TuneFrequency);
+//	clkgpio::SetFrequency(0);
+//	clkgpio::enableclk(4);
 	syncwithpwm=false;
-	
+
 	if(syncwithpwm)
 	{
 		pwmgpio::SetPllNumber(clk_plld,1);
@@ -61,6 +63,16 @@ iqdmasync::iqdmasync(uint64_t TuneFrequency,uint32_t SR,int Channel,uint32_t Fif
 	// Max spurious avoid is to be in the center ! Theory shoud be that spurious are set away at 19.2/2= 9.6Mhz ! But need to get account of div of PLLClock
 	
 }
+
+void iqdmasync::setFrequency(uint64_t TuneFrequency){
+	tunefreq=TuneFrequency;
+	clkgpio::SetAdvancedPllMode(true);
+	clkgpio::SetCenterFrequency(TuneFrequency,SampleRate); // Write Mult Int and Frac : FixMe carrier is already there
+	printf("is %llu, sr: %d \n", TuneFrequency, SampleRate);
+	clkgpio::SetFrequency(0);
+	clkgpio::enableclk(4);
+}
+
 
 iqdmasync::~iqdmasync()
 {

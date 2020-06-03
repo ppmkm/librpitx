@@ -28,6 +28,7 @@ class iqdmasync:public bufferdma,public clkgpio,public pwmgpio,public pcmgpio
 	void SetIQSample(uint32_t Index,std::complex<float> sample,int Harmonic);
 	void SetFreqAmplitudeSample(uint32_t Index,std::complex<float> sample,int Harmonic);
 	void SetIQSamples(std::complex<float> *sample,size_t Size,int Harmonic);
+	void setFrequency(uint64_t freq);
 }; 
 
 #endif
